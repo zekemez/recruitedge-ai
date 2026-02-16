@@ -82,7 +82,7 @@ def health():
 @app.route('/generate-email', methods=['POST'])
 def generate_email_route():
     data = request.json
-    
+     
     athlete_info = data.get('athlete')
     coach_info = data.get('coach')
     
@@ -109,7 +109,7 @@ def send_email_route():
     
     try:
         params = {
-            "from": "RecruitEdge <onboarding@resend.dev>",
+            "from": "RecruitEdge <noreply@recruitedge.site>",
             "to": [to_email],
             "subject": subject,
             "text": body,
