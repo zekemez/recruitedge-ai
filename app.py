@@ -68,12 +68,20 @@ Format your response as JSON:
     response = message.content[0].text
     
     try:
-        # Try to parse as JSON
-        email_data = json.loads(response)
-        return email_data['subject'], email_data['body']
-    except:
-        # Fallback parsing
-        return "Recruiting Inquiry", response
+    # Try to parse as JSON
+    # Remove markdown code blocks if present
+    clean_response = response.strip()
+    if clean_response.startswith("```"):
+        clean_response = clean_response.split("```")[1]
+        if clean_response.startswith("json"):
+            clean_response = clean_response[4:]
+    clean_response = clean_response.strip()
+    
+    email_data = json.loads(clean_response)
+    return email_data['subject'], email_data['body']
+except:
+    # Fallback parsing
+    return "Recruiting Inquiry", response
 
 @app.route('/health', methods=['GET'])
 def health():
